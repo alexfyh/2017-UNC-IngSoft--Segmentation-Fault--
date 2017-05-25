@@ -1,0 +1,22 @@
+apply plugin: 'java'
+
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '5.+'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: '1.3'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.9.5'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Biblioteca', 'Implementation-Version': version
+    }
+}
