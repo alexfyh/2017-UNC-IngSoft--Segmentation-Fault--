@@ -49,6 +49,42 @@ public class RegistroAfiliados {
         return afiliados.size();
     }
 
+    public void removeAfiliado(String id){
+        try{
+            int dni = Integer.parseInt(id);
+            if(afiliados.containsKey(dni)){
+
+                afiliados.remove(dni);
+            }
+            else{
+                System.out.println("No corresponde a un afiliado existente");
+            }
+
+        }
+        catch(Exception e){
+            System.out.println("ID no valida");
+
+        }
+    }
+
+    public void changeDatos(String id,String telefono, String direccion){
+        Afiliado afiliado = this.getAfiliado(id);
+        try{
+            if(telefono.length()!=0)
+                afiliado.setTel(telefono);
+            if(direccion.length()!=0)
+                afiliado.setDireccion(direccion);
+        }
+        catch (Exception e){
+            System.out.println("No se modificaron todos los campos.");
+
+        }
+        
+
+
+
+    }
+
 
 
 
