@@ -29,7 +29,7 @@ public class Afiliado {
 
 
     }
-    private Afiliado(String id, String nombre,String apellido, String tel, String direccion) throws Exception{
+    protected Afiliado(String id, String nombre,String apellido, String tel, String direccion) throws Exception{
            try {
                this.setId(id);
                this.setNombre(nombre);
