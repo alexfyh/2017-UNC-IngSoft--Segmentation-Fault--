@@ -72,6 +72,7 @@ public class RegistroAfiliados {
         try{
             if(telefono.length()!=0)
                 afiliado.setTel(telefono);
+
             if(direccion.length()!=0)
                 afiliado.setDireccion(direccion);
         }
