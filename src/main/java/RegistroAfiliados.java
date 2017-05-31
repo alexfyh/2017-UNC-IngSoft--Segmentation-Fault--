@@ -58,6 +58,7 @@ public class RegistroAfiliados {
             }
             else{
                 System.out.println("No corresponde a un afiliado existente");
+                System.out.println("línea de prueba para git");
             }
 
         }

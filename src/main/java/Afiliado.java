@@ -14,6 +14,7 @@ public class Afiliado {
         Afiliado nuevo;
         try{
             nuevo = new Afiliado(id, nombre, apellido, tel, direccion);
+            System.out.println("el afiliado se ha cresado exitosamente (prueba git)");
 
         }
         catch (Exception e){
