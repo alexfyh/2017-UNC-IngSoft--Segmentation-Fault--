@@ -10,37 +10,33 @@ public class Afiliado {
     private int tel;
     private String direccion;
 
-    public static Afiliado newAfiliado(String id, String nombre,String apellido, String tel, String direccion){
+    public static Afiliado newAfiliado(String id, String nombre, String apellido, String tel, String direccion) {
         Afiliado nuevo;
-        try{
+        try {
             nuevo = new Afiliado(id, nombre, apellido, tel, direccion);
             System.out.println("el afiliado se ha cresado exitosamente (prueba gitttt)");
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("No se ha podido crear el cliente");
             nuevo = null;
-        }
-        finally{
+        } finally {
 
         }
         return nuevo;
 
 
-
-
     }
-    protected Afiliado(String id, String nombre,String apellido, String tel, String direccion) throws Exception{
-           try {
-               this.setId(id);
-               this.setNombre(nombre);
-               this.setApellido(apellido);
-               this.setTel(tel);
-               this.setDireccion(direccion);
 
-           }
-           catch(Exception e){
-               throw new Exception();
+    protected Afiliado(String id, String nombre, String apellido, String tel, String direccion) throws Exception {
+        try {
+            this.setId(id);
+            this.setNombre(nombre);
+            this.setApellido(apellido);
+            this.setTel(tel);
+            this.setDireccion(direccion);
+
+        } catch (Exception e) {
+            throw new Exception();
 
         }
 
@@ -97,10 +93,10 @@ public class Afiliado {
         this.apellido = apellido;
     }
 
-    public void setTel(String tel) throws Exception{
+    public void setTel(String tel) throws Exception {
 
         //this.tel = Integer.parseInt(tel);
-        try{
+        try {
             this.tel = Integer.parseInt(tel);
         }
         /*catch(NumberFormatException notInt){
@@ -112,8 +108,7 @@ public class Afiliado {
             // como informo por pantalla que era vacia la cadena
             System.out.println(pointerNull.getMessage());
             throw Exception ;
-        }*/
-        catch(Exception e){
+        }*/ catch (Exception e) {
             System.out.println("No se pudo establecer  el telefono");
             throw new Exception();
         }
@@ -121,13 +116,11 @@ public class Afiliado {
     }
 
     public void setDireccion(String direccion) {
-        try{
+        try {
             this.direccion = direccion;
-        }
-        catch (NullPointerException pointerNull){
+        } catch (NullPointerException pointerNull) {
             System.out.println(pointerNull.getMessage());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }

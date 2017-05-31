@@ -7,7 +7,7 @@ import java.util.Map;
 public class RegistroAfiliados {
     private Map<Integer, Afiliado> afiliados;
 
-    public RegistroAfiliados(){
+    public RegistroAfiliados() {
         afiliados = new HashMap<Integer, Afiliado>();
     }
 
@@ -15,79 +15,70 @@ public class RegistroAfiliados {
         afiliados.put(nuevo.getId(),nuevo);
 
     }*/
-    public Afiliado getAfiliado(String id){
-        try{
-            Integer  ide = Integer.parseInt(id);
+    public Afiliado getAfiliado(String id) {
+        try {
+            Integer ide = Integer.parseInt(id);
             return afiliados.get(ide);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return null;
 
         }
 
 
     }
-    public void addAfiliado(String id, String nombre,String apellido, String tel, String direccion){
+
+    public void addAfiliado(String id, String nombre, String apellido, String tel, String direccion) {
         Afiliado nuevo;
-        try{
+        try {
             nuevo = Afiliado.newAfiliado(id, nombre, apellido, tel, direccion);
-            if(afiliados.containsKey(nuevo.getId())){
+            if (afiliados.containsKey(nuevo.getId())) {
                 System.out.println("Id ya en uso, pruebe otra");
-            }
-            else{
-                afiliados.put(nuevo.getId(),nuevo);
+            } else {
+                afiliados.put(nuevo.getId(), nuevo);
             }
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("No se pudo crear");
 
         }
     }
 
-    public int sizeRegistro(){
+    public int sizeRegistro() {
         return afiliados.size();
     }
 
-    public void removeAfiliado(String id){
-        try{
+    public void removeAfiliado(String id) {
+        try {
             int dni = Integer.parseInt(id);
-            if(afiliados.containsKey(dni)){
+            if (afiliados.containsKey(dni)) {
 
                 afiliados.remove(dni);
-            }
-            else{
+            } else {
                 System.out.println("No corresponde a un afiliado existente");
                 System.out.println("línea de prueba para git");
             }
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("ID no valida");
 
         }
     }
 
-    public void changeDatos(String id,String telefono, String direccion){
+    public void changeDatos(String id, String telefono, String direccion) {
         Afiliado afiliado = this.getAfiliado(id);
-        try{
-            if(telefono.length()!=0)
+        try {
+            if (telefono.length() != 0)
                 afiliado.setTel(telefono);
 
-            if(direccion.length()!=0)
+            if (direccion.length() != 0)
                 afiliado.setDireccion(direccion);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("No se modificaron todos los campos.");
 
         }
-        
-
 
 
     }
-
-
 
 
 }
