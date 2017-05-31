@@ -24,7 +24,7 @@ public class Bibliotecario extends Afiliado{
             System.out.print("min 6 caracteres, max 15: ");
             this.contraseña = scanner.nextLine();
         }
-        System.out.println("La contraseña se cambió con éxito");
+        System.out.println("La contraseña se cambió exitosamente");
     }
 
 }

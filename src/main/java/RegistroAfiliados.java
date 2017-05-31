@@ -32,7 +32,7 @@ public class RegistroAfiliados {
         try{
             nuevo = Afiliado.newAfiliado(id, nombre, apellido, tel, direccion);
             if(afiliados.containsKey(nuevo.getId())){
-                System.out.println("Id ya en uso");
+                System.out.println("Id ya en uso, pruebe otra");
             }
             else{
                 afiliados.put(nuevo.getId(),nuevo);
