@@ -1,25 +1,22 @@
-import org.junit.jupiter.api.Test;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.Before;
 
 public class AfiliadoTest {
     Afiliado cosme;
     Afiliado homero;
 
-    @org.junit.jupiter.api.BeforeEach
-    void setUp() {
+    @Before
+    public void  inicio(){
         homero = Afiliado.newAfiliado("12345", "Homero J", "Simpsons", "6789", "Siempre Viva 123");
 
+
+
     }
 
-    @org.junit.jupiter.api.AfterEach
-    void tearDown() {
-    }
-
-    @org.junit.jupiter.api.Test
-    void createAfiliado() {
-
+    @Test
+    public void createAfiliado() {
+        homero = Afiliado.newAfiliado("12345", "Homero J", "Simpsons", "6789", "Siempre Viva 123");
         cosme = Afiliado.newAfiliado("1234", "Cosme", "Fulanito", "xyz", "siempre viva 123");
         cosme = Afiliado.newAfiliado("ABCD", "Cosme", "Fulanito", "456", "siempre viva 123");
         cosme = Afiliado.newAfiliado("", "Cosme", "Fulanito", "456", "siempre viva 123");
@@ -29,52 +26,52 @@ public class AfiliadoTest {
     }
 
 
-    @org.junit.jupiter.api.Test
-    void getId() {
+    @Test
+    public void getId() {
         assertEquals(12345, homero.getId());
         assertNotEquals(4567, homero.getId());
         //assertEquals(null,cosme);
     }
 
-    @org.junit.jupiter.api.Test
-    void getNombre() {
+    @Test
+    public void getNombre() {
         assertEquals("Homero J", homero.getNombre());
     }
 
-    @org.junit.jupiter.api.Test
-    void getApellido() {
+    @Test
+    public void getApellido() {
         assertEquals("Simpsons", homero.getApellido());
         assertNotEquals("Simpsone", homero.getApellido());
     }
 
-    @org.junit.jupiter.api.Test
-    void getTel() {
+    @Test
+    public void getTel() {
         assertEquals(6789, homero.getTel());
         assertNotEquals(1234, homero.getTel());
     }
 
-    @org.junit.jupiter.api.Test
-    void getDireccion() {
+    @Test
+    public void getDireccion() {
         assertEquals("Siempre Viva 123", homero.getDireccion());
     }
 
-    @org.junit.jupiter.api.Test
-    void setNombre() {
+    @Test
+    public void setNombre() {
         homero.setNombre("Cosme");
         assertEquals("Cosme", homero.getNombre());
         assertNotEquals("Homero", homero.getNombre());
 
     }
 
-    @org.junit.jupiter.api.Test
-    void setApellido() {
+    @Test
+    public void setApellido() {
         homero.setApellido("Fulanito");
         assertEquals("Fulanito", homero.getApellido());
         assertNotEquals("Simpsons", homero.getApellido());
     }
 
-    @org.junit.jupiter.api.Test
-    void setTel() {
+    @Test
+    public void setTel() {
         try {
             homero.setTel("1515");
         } catch (Exception e) {
@@ -90,8 +87,8 @@ public class AfiliadoTest {
 
     }
 
-    @org.junit.jupiter.api.Test
-    void setDireccion() {
+    @Test
+    public void setDireccion() {
         homero.setDireccion("Calle sin numero");
         assertEquals("Calle sin numero", homero.getDireccion());
         assertNotEquals("Siempre Viva 123", homero.getDireccion());

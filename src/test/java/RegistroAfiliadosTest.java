@@ -1,6 +1,6 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+//import static org.junit.Assert.*;
+import org.junit.Before;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RegistroAfiliadosTest {
     RegistroAfiliados registro;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void init() {
         registro = new RegistroAfiliados();
         registro.addAfiliado("12345", "Homero J", "Simpsons", "6789", "Siempre Viva 123");
         registro.addAfiliado("23456", "Marge", "Simpsons", "6789", "Siempre Viva 123");
@@ -23,12 +23,12 @@ public class RegistroAfiliadosTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
+    @Test
+    public void tearDown() {
     }
 
-    @org.junit.jupiter.api.Test
-    void getAfiliado() {
+    @Test
+    public void getAfiliado() {
 
         assertNotNull(registro.getAfiliado("12345"));
         assertNotNull(registro.getAfiliado("23456"));
@@ -38,8 +38,8 @@ public class RegistroAfiliadosTest {
         assertNull(registro.getAfiliado("ABCD"));
     }
 
-    @org.junit.jupiter.api.Test
-    void addAfiliado() {
+    @Test
+    public void addAfiliado() {
         //void addAfiliado(String id,String nombre, String apellido, String tel,String direccion )
 
 
