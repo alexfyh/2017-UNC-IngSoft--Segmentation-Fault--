@@ -41,13 +41,14 @@ public class RegistroAfiliadosTest {
     @Test
     public void addAfiliado() {
         //void addAfiliado(String id,String nombre, String apellido, String tel,String direccion )
+	//  EL USUARIO ADMIN ESTA ANTES, POR LO QUE EL ESPERADO DEBE SER 5, NO 4;
 
 
         registro.addAfiliado("1234", "Cosme", "Fulanito", "xyz", "siempre viva 123");
         registro.addAfiliado("ABCD", "Cosme", "Fulanito", "456", "siempre viva 123");
         registro.addAfiliado("", "Cosme", "Fulanito", "456", "siempre viva 123");
         registro.addAfiliado(null, "Cosme", "Fulanito", "456", "siempre viva 123");
-        assertEquals(4, this.registro.sizeRegistro());
+        assertEquals(5, this.registro.sizeRegistro());
     }
 
 }
