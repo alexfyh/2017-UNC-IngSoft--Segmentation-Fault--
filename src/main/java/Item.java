@@ -1,4 +1,6 @@
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by David Lazos on 6/6/2017.
@@ -13,6 +15,7 @@ public abstract class Item {
     protected String titulo;
     protected Date fechaPubicacion;
     protected Categoria categoria;
+    protected List<Ejemplar> ejemplares;
 
 
 
@@ -24,6 +27,7 @@ public abstract class Item {
         this.autor=autor;
         this.fechaPubicacion=fechaPubicacion;
         this.categoria=categoria;
+        ejemplares = new ArrayList<Ejemplar>();
     }
 
 
@@ -53,5 +57,35 @@ public abstract class Item {
 
     public Categoria getCategoria() {
         return categoria;
+    }
+
+    public abstract boolean esIgual(Item item);
+
+    public int cantEjemplaes(){
+        return ejemplares.size();
+    }
+
+    public int cantDisponibes(){
+        int i=0;
+        for(Ejemplar eje : ejemplares){
+            if(eje.getEstado()==EstadoEjemplar.DISPONIBLE)
+                i++;
+        }
+        return i;
+    }
+
+    public void enlistarEjemplar(Ejemplar ejemplar){
+        // Verificar que el mismo ejemplar no se encoló previamente
+        boolean encolado = false;
+        for(Ejemplar ejem : ejemplares)
+        {
+            if(ejem.getIdEjemplar()==ejemplar.getIdEjemplar())
+            {
+                encolado=true;
+            }
+        }
+        if(encolado==false)
+        ejemplares.add(ejemplar);
+
     }
 }

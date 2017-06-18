@@ -9,4 +9,19 @@ public class Revista extends Item{
 
     }
 
+
+    public boolean esIgual(Item item)
+    {
+        if(item  instanceof Revista){
+            if(this.titulo.equals(item.titulo)&&this.autor.equals(item.autor)&&this.fechaPubicacion.equals(item.fechaPubicacion)&&
+                    this.categoria.equals(item.categoria)){
+                return true;
+            }
+            else{return false;}
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

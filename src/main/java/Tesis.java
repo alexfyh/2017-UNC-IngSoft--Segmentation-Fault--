@@ -9,4 +9,18 @@ public class Tesis  extends Item{
         super( titulo, autor, fechaPublicacion, categoria);
 
     }
+    public boolean esIgual(Item item)
+    {
+        if(item  instanceof Tesis){
+             if(this.titulo.equals(item.titulo)&&this.autor.equals(item.autor)&&this.fechaPubicacion.equals(item.fechaPubicacion)&&
+                     this.categoria.equals(item.categoria)){
+                 return true;
+             }
+             else{return false;}
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

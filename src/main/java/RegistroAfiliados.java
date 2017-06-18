@@ -9,6 +9,14 @@ public class RegistroAfiliados {
 
     public RegistroAfiliados() {
         afiliados = new HashMap<Integer, Afiliado>();
+        try {
+            Bibliotecario admin = new Bibliotecario("19004245", "Alex", "YH", "4731540", "Obispo Ceballos", "yhyhyh");
+            afiliados.put(admin.getId(),admin);
+        }
+        catch(Exception e)
+        {
+
+        }
     }
 
     /*public void addAfiiado(Afiliado nuevo){

@@ -1,14 +1,18 @@
 import java.util.concurrent.ExecutionException;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by YepezHinostroza on 21/5/2017.
  */
 public class Afiliado {
-    private int id;
-    private String nombre;
-    private String apellido;
-    private int tel;
-    private String direccion;
+    protected static int PrestamoMax = 3;
+    protected int id;
+    protected String nombre;
+    protected String apellido;
+    protected int tel;
+    protected String direccion;
+    protected List<Ejemplar> prestados;
 
     public static Afiliado newAfiliado(String id, String nombre, String apellido, String tel, String direccion) {
         Afiliado nuevo;
@@ -34,6 +38,7 @@ public class Afiliado {
             this.setApellido(apellido);
             this.setTel(tel);
             this.setDireccion(direccion);
+            prestados= new ArrayList<Ejemplar>();
 
         } catch (Exception e) {
             throw new Exception();
@@ -123,5 +128,13 @@ public class Afiliado {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public int getCantPrestada(){
+        return prestados.size();
+    }
+
+    public List<Ejemplar> prestados(){
+        return prestados;
     }
 }

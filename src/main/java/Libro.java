@@ -25,4 +25,19 @@ public class Libro extends Item{
     public String getEditorial(){
         return this.editorial;
     }
+
+    public boolean esIgual(Item item)
+    {
+        if(item  instanceof Libro){
+            if(this.titulo.equals(item.titulo)&&this.autor.equals(item.autor)&&this.fechaPubicacion.equals(item.fechaPubicacion)&&
+                    this.categoria.equals(item.categoria)&&this.edicion== ((Libro) item).getEdicion()&&this.editorial.equals(((Libro) item).getEditorial())){
+                return true;
+            }
+            else{return false;}
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
