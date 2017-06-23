@@ -12,6 +12,7 @@ public class BibliotecaModelTest {
     public void setUp() throws Exception {
         model = BibliotecaModel.getUniqueInstance();
 
+
     }
 
     @Test
@@ -22,8 +23,13 @@ public class BibliotecaModelTest {
 
     @Test
     public void login(){
-        model.login(19004245,"yhyhyh");
-        assertTrue(model.getPermisos() instanceof PermisosBibliotecario);
+        try {
+            model.login(19004245, "yhyhyh");
+            assertTrue(model.getPermisos() instanceof PermisosBibliotecario);
+        }
+        catch (Exception e){
+
+        }
 
     }
 
@@ -46,6 +52,11 @@ public class BibliotecaModelTest {
         assertEquals(anio, model.getDate().getYear());
         assertEquals(mes, model.getDate().getMonth());
         assertEquals(dia, model.getDate().getDay());
+    }
+    @Test
+    public void prestar(){
+
+
     }
 
 }

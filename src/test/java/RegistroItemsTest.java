@@ -80,10 +80,42 @@ public class RegistroItemsTest {
     }
     @Test
     public void deleteItem() {
+
+        //registro.getRegistroCompleto().remove()
+    }
+    @Test
+    public void listaEjemplares() {
+        assertEquals(4,registro.listarEjemplares().size());
+        Ejemplar ejemplar5, ejemplar6;
+        ejemplar5 = new EjemplarLibro("FPGA para todos y todas","Lazos",new Date(1990,10,10),Categoria.ELECTRONICA,2,"Brujas");
+        registro.agregarEjemplar(ejemplar5);
+        assertEquals(5,registro.listarEjemplares().size());
+        ejemplar6 = new EjemplarLibro("FPGA para todos y todas","Lazos",new Date(1990,10,10),Categoria.ELECTRONICA,2,"Brujas");
+        registro.agregarEjemplar(ejemplar6);
+        assertEquals(6,registro.listarEjemplares().size());
+
+
+
+        //registro.getRegistroCompleto().remove()
     }
 
     @Test
-    public void porTipo() {
+    public void borrarEjemplar() {
+        Ejemplar ejemplar5, ejemplar6;
+        ejemplar5 = new EjemplarLibro("FPGA para todos y todas","Lazos",new Date(1990,10,10),Categoria.ELECTRONICA,2,"Brujas");
+        registro.agregarEjemplar(ejemplar5);
+        assertEquals(5,registro.listarEjemplares().size());
+        ejemplar6 = new EjemplarLibro("FPGA para todos y todas","Lazos",new Date(1990,10,10),Categoria.ELECTRONICA,2,"Brujas");
+        registro.agregarEjemplar(ejemplar6);
+        assertEquals(6,registro.listarEjemplares().size());
+        registro.deleteEjemplar(ejemplar5.getIdEjemplar());
+        assertEquals(5,registro.listarEjemplares().size());
+        registro.deleteEjemplar(ejemplar6.getIdEjemplar());
+        assertEquals(4,registro.getRegistroCompleto().size());
+        registro.deleteEjemplar(ejem1.getIdEjemplar());
+        assertEquals(3,registro.listarEjemplares().size());
+        assertEquals(3,registro.getRegistroCompleto().size());
+
     }
 
     @Test

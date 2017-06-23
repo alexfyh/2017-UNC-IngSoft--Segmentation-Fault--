@@ -9,55 +9,80 @@ public class BibliotecaModel {
     private static BibliotecaModel UniqueInstance;
     private Date fechaActual;
 
-    private  BibliotecaModel(){
-        afiliados=new RegistroAfiliados();
+    public RegistroAfiliados getAfiliados(){
+        return afiliados;
+    }
+    public RegistroItems getItems(){
+        return items;
+    }
+    private BibliotecaModel() {
+        afiliados = new RegistroAfiliados();
         items = new RegistroItems();
-        permisos= new PermisosAfiliado();
+        permisos = new PermisosAfiliado();
         fechaActual = new Date();
+        permisos= new PermisosAfiliado();
     }
 
-    public static BibliotecaModel getUniqueInstance(){
-        if(UniqueInstance==null){
+    public static BibliotecaModel getUniqueInstance() {
+        if (UniqueInstance == null) {
             BibliotecaModel.UniqueInstance = new BibliotecaModel();
             return UniqueInstance;
-        }
-        else{
+        } else {
             return UniqueInstance;
         }
 
     }
 
-    public void login(Integer id, String password){
-        Afiliado afiliado = afiliados.getAfiliado(id.toString());
-        if(afiliado!=null||password!=null||id!=null){
+    public void login(int id, String password) throws Exception{
 
-            if(afiliado instanceof Bibliotecario){
-                if(((Bibliotecario) afiliado).getContrasena().equals(password))
-                   permisos = new PermisosBibliotecario();
+        Afiliado afiliado = afiliados.getAfiliado(String.valueOf(id));
+        if (afiliado != null || password != null) {
+
+            if (afiliado instanceof Bibliotecario) {
+                if (((Bibliotecario) afiliado).getContrasena().equals(password))
+                    permisos = new PermisosBibliotecario();
+                else{
+                    throw new Exception();
+                }
+
+            } else {
+                throw new Exception();
+
             }
-            else{
 
-            }
-
-        }else{
-            //redifinir Interfaz permisos
+        } else {
+            throw new Exception();
         }
 
 
     }
-    public Permisos getPermisos(){
+
+    public Permisos getPermisos() {
         return permisos;
     }
-    public void logout(){
+
+    public void logout() {
         permisos = new PermisosAfiliado();
     }
 
-    public void setDate(int anio, int mes, int dia){
-        this.fechaActual = new Date(anio, mes,dia);
+    public void setDate(int anio, int mes, int dia) {
+        this.fechaActual = new Date(anio, mes, dia);
     }
 
-    public Date getDate(){
+    public Date getDate() {
         return this.fechaActual;
+    }
+
+
+    public boolean agregarRevista(String titulo, String autor, Date fechaPublicacion, Categoria categoria){
+        try {
+            Ejemplar revista = new EjemplarRevista(titulo, autor, fechaPublicacion, categoria);
+
+            items.agregarEjemplar(revista);
+            return true;
+        }
+        catch(Exception e){return false;}
+
     }
 
 }

@@ -6,6 +6,7 @@ public abstract class Ejemplar {
     protected EstadoEjemplar estado;
     protected Item item;
     protected static int EjemplarSig;
+    protected Afiliado afiliado;
 
     public static void  incrementarSiguiente(){
         EjemplarSig++;
@@ -20,14 +21,15 @@ public abstract class Ejemplar {
     public EstadoEjemplar getEstado(){
         return this.estado;
     }
-    public void prestarEjemplar(){
-        //definir afiliado
+    public void prestarEjemplar(Afiliado afiliado){
+        this.afiliado = afiliado;
         this.estado = EstadoEjemplar.PRESTADO;
 
     }
 
     public void devolverEjemplar(){
-        //deasociar afiliad
+
+        afiliado=null;
         this.estado = EstadoEjemplar.DISPONIBLE;
     }
 
@@ -37,6 +39,10 @@ public abstract class Ejemplar {
 
     public void setItem(Item registrado){
         this.item = registrado;
+    }
+
+    public Afiliado getAfiliado(){
+        return afiliado;
     }
 
 

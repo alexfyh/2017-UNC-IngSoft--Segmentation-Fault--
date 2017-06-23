@@ -18,16 +18,15 @@ public class Bibliotecario extends Afiliado {
     }
 
 
-    public void setContrasena(String contras) {
+    public void setContrasena(String contras) throws Exception{
         if (contras.length() < minContr || contras.length() > maxContr) {
-            System.out.print("No se ha podido crear contraseña, reingrese");
-            System.out.print("min 6 caracteres, max 15: ");
+            throw new Exception("Contrasena no valida");
 
         }
         else{
             this.contrasena = contras;
         }
-        System.out.println("La contraseña se cambió exitosamente");
+        //System.out.println("La contraseña se cambió exitosamente");
     }
 
     public  String getContrasena(){

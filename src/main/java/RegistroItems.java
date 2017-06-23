@@ -1,5 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Created by YepezHinostroza on 16/6/2017.
  */
@@ -22,11 +24,12 @@ public class RegistroItems {
             System.out.println("Item inexistente");
         }
     }
-    public void porTipo( ){
+   /*public void porTipo( ){
+
         for(Item item : items.values()) {
-            //if (is instanceof ))
+            if (item  instanceof Class))
         }
-    }
+    }*/
     public Item buscarItem(Item it){
         Item encontrado = null;
         for(Item item: items.values())
@@ -60,5 +63,51 @@ public class RegistroItems {
 
     public Map<Integer,Item> getRegistroCompleto(){
         return items;
+    }
+
+    public List<Ejemplar> listarEjemplares(){
+        List<Ejemplar> lista= new ArrayList<Ejemplar>();
+        for( Item item: getRegistroCompleto().values())
+        {
+            for(Ejemplar ejem : item.ejemplares)
+            {
+                lista.add(ejem);
+            }
+        }
+      return lista;
+    }
+
+
+    public void deleteEjemplar(int idEjemplar){
+        Ejemplar borrado= null;
+        Item it=null;
+        try {
+
+                for (Ejemplar ejem : listarEjemplares()) {
+                    if (ejem.getIdEjemplar() == idEjemplar) {
+                        it = ejem.getItem();
+                        ejem.getItem().listaEjemplares().remove(ejem);
+                        if(it.cantEjemplaes()==0){
+                            getRegistroCompleto().remove(it.getIdItem());
+                        }
+
+                        return;
+
+                    }
+                }
+        }
+        catch(Exception e){}
+    }
+
+    public Ejemplar encontrarEjemplar(int Id){
+        Ejemplar encontrado = null;
+        for(Ejemplar ejemplar: listarEjemplares()){
+            if(ejemplar.getIdEjemplar()==Id)
+            {
+                encontrado=ejemplar;
+
+            }
+        }
+        return encontrado;
     }
 }

@@ -31,43 +31,41 @@ public class RegistroAfiliados {
             return null;
 
         }
-
-
     }
 
-    public void addAfiliado(String id, String nombre, String apellido, String tel, String direccion) {
+
+    public void addAfiliado (String id, String nombre, String apellido, String tel, String direccion) throws Exception{
         Afiliado nuevo;
-        try {
+       // try {
             nuevo = Afiliado.newAfiliado(id, nombre, apellido, tel, direccion);
             if (afiliados.containsKey(nuevo.getId())) {
-                System.out.println("Id ya en uso, pruebe otra");
+                throw new Exception();
             } else {
                 afiliados.put(nuevo.getId(), nuevo);
             }
 
-        } catch (Exception e) {
-            System.out.println("No se pudo crear");
+        //} catch (Exception e) {
+            //System.out.println("No se pudo crear");
 
-        }
+        //}
     }
 
     public int sizeRegistro() {
         return afiliados.size();
     }
 
-    public void removeAfiliado(String id) {
+    public void removeAfiliado(String id) throws Exception{
         try {
             int dni = Integer.parseInt(id);
             if (afiliados.containsKey(dni)) {
 
                 afiliados.remove(dni);
             } else {
-                System.out.println("No corresponde a un afiliado existente");
-                System.out.println("línea de prueba para git");
+                throw new Exception("Error al remover afiliado");
             }
 
         } catch (Exception e) {
-            System.out.println("ID no valida");
+            throw new Exception("Error al remover afiliado");
 
         }
     }
@@ -84,9 +82,8 @@ public class RegistroAfiliados {
             System.out.println("No se modificaron todos los campos.");
 
         }
-
-
     }
+    public Map<Integer,Afiliado> getRegistroAfiliados(){ return afiliados;}
 
 
 }

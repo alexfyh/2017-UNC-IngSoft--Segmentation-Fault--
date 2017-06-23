@@ -88,4 +88,9 @@ public abstract class Item {
         ejemplares.add(ejemplar);
 
     }
+    public List<Ejemplar> listaEjemplares(){
+        return ejemplares;
+    }
+
+
 }

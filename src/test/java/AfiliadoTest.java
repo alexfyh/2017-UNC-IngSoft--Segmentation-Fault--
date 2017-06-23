@@ -1,6 +1,7 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import java.util.Date;
 
 public class AfiliadoTest {
     Afiliado cosme;
@@ -46,7 +47,7 @@ public class AfiliadoTest {
 
     @Test
     public void getTel() {
-        assertEquals(6789, homero.getTel());
+        assertEquals(6789, homero.getTel(),1);
         assertNotEquals(1234, homero.getTel());
     }
 
@@ -77,13 +78,15 @@ public class AfiliadoTest {
         } catch (Exception e) {
 
         }
-        assertEquals(1515, homero.getTel());
+
+
+        assertEquals(1515, homero.getTel(),1);
         assertNotEquals(6789, homero.getApellido());
         try {
             homero.setTel("15ABC");
         } catch (Exception e) {
         }
-        assertEquals(1515, homero.getTel());
+        assertEquals(1515, homero.getTel(),1);
 
     }
 
@@ -92,6 +95,23 @@ public class AfiliadoTest {
         homero.setDireccion("Calle sin numero");
         assertEquals("Calle sin numero", homero.getDireccion());
         assertNotEquals("Siempre Viva 123", homero.getDireccion());
+    }
+
+    @Test
+    public void setFechaSuspension(){
+        assertEquals(null,homero.getFechaSuspension());
+        homero.setFechaSuspension(06,24);
+        System.out.println(homero.getFechaSuspension());
+        assertTrue(homero.getFechaSuspension().compareTo(new Date())>0);
+        homero.setFechaSuspension(06,20);
+        assertTrue(homero.getFechaSuspension().compareTo(new Date())<0);
+        System.out.println(homero.getFechaSuspension());
+
+        /*
+        assertEquals((new Date()).getYear(),homero.getFechaSuspension().getYear());
+        assertEquals(06,homero.getFechaSuspension().getMonth());
+        assertEquals(22,homero.getFechaSuspension().getDay());*/
+
     }
 
 }

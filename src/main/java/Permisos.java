@@ -3,17 +3,22 @@
  */
 public interface Permisos {
 
-    public void prestar(Afiliado afiliado, Ejemplar ejemplar);
-    public void devolver(Ejemplar ejemplar); // ver si hace hace falta pasarle el afiliado
+    public boolean login(int dni, String password, BibliotecaModel model);
+    public boolean logout ( BibliotecaModel model);
 
-    public void setFecha(BibliotecaModel modelo);
+    public boolean prestar(int idEjemplar, int dni,BibliotecaModel model);
+    public boolean devolver(int  ejemplar,BibliotecaModel model);
+    public boolean suspender(int dni,  int mes, int dia,BibliotecaModel model);
 
-    public void afiliar(Afiliado afiliado,RegistroAfiliados registro);
-    public void desafiliar(Integer dni,RegistroAfiliados registro);
-    public void modPermisos(Integer dni,RegistroAfiliados registro);
+    public boolean setFecha(int year,int month, int day,BibliotecaModel modelo);
 
+    public boolean afiliar(int dni, String nombre,String apellido, String telefono,String direccion,BibliotecaModel model);
+    public boolean desafiliar(int dni,BibliotecaModel model);
+    public boolean modPermisos(int dni,String password, BibliotecaModel model);
+
+/*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items);
-    public void eliminarEjemplar(Integer IdEjemplar, RegistroItems items );
+    public void eliminarEjemplar(int IdEjemplar, RegistroItems items );
 
     public void consultarDisponibilida(Integer idItem,RegistroItems items);
     public void verInfo(Integer idItem);
@@ -22,11 +27,11 @@ public interface Permisos {
 
 
 
-    public void logout();
-    public void login(Integer dni, String password);
+    public void logout(BibliotecaModel model);
+
 
     // prestamo
     //login
     //logout
-
+*/
 }

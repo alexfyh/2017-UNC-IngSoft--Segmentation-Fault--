@@ -1,6 +1,7 @@
 import java.util.concurrent.ExecutionException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by YepezHinostroza on 21/5/2017.
@@ -10,18 +11,19 @@ public class Afiliado {
     protected int id;
     protected String nombre;
     protected String apellido;
-    protected int tel;
+    protected double tel;
     protected String direccion;
     protected List<Ejemplar> prestados;
+    protected Date fechaSuspension;
 
     public static Afiliado newAfiliado(String id, String nombre, String apellido, String tel, String direccion) {
         Afiliado nuevo;
         try {
             nuevo = new Afiliado(id, nombre, apellido, tel, direccion);
-            System.out.println("el afiliado se ha cresado exitosamente (prueba gitttt)");
+            //System.out.println("el afiliado se ha cresado exitosamente (prueba gitttt)");
 
         } catch (Exception e) {
-            System.out.println("No se ha podido crear el cliente");
+            //System.out.println("No se ha podido crear el cliente");
             nuevo = null;
         } finally {
 
@@ -38,6 +40,7 @@ public class Afiliado {
             this.setApellido(apellido);
             this.setTel(tel);
             this.setDireccion(direccion);
+            this.fechaSuspension=null;
             prestados= new ArrayList<Ejemplar>();
 
         } catch (Exception e) {
@@ -59,7 +62,7 @@ public class Afiliado {
         return apellido;
     }
 
-    public int getTel() {
+    public double getTel() {
         return tel;
     }
 
@@ -102,7 +105,7 @@ public class Afiliado {
 
         //this.tel = Integer.parseInt(tel);
         try {
-            this.tel = Integer.parseInt(tel);
+            this.tel = Double.parseDouble(tel);
         }
         /*catch(NumberFormatException notInt){
             // còmo imprimir en pantalla que no es un nùmero?
@@ -137,4 +140,24 @@ public class Afiliado {
     public List<Ejemplar> prestados(){
         return prestados;
     }
+
+    public void setFechaSuspension(int mes, int dia){
+        try{
+            int anio = (new Date()).getYear();
+
+            this.fechaSuspension= new Date(anio, mes-1, dia);
+            //System.out.println(fechaSuspension.toString());
+
+        }
+        catch(Exception e){
+
+        }
+    }
+    public Date getFechaSuspension(){
+        return fechaSuspension;
+    }
+    public void suspender(int cantidadDias){
+        this.fechaSuspension= new Date();
+    }
+
 }
