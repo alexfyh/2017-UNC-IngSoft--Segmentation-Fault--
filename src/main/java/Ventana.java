@@ -2,8 +2,6 @@
  * Created by YepezHinostroza on 23/6/2017.
  */
 
-import java.util.List;
-import java.util.ArrayList;
 //import com.intellij.ui.components.JBOptionButton;
 import java.awt.event.*;
 import java.util.Date;
@@ -204,7 +202,7 @@ public class Ventana extends JFrame implements ActionListener {
     public void Afiliados(){
         contenedor.removeAll();
         setSize(300, 400);
-        GridLayout gl= new GridLayout(7,1,10,10);
+        GridLayout gl= new GridLayout(8,1,10,10);
         JLabel etiqueta = new JLabel("Operaciones sobre Afiliados",SwingConstants.CENTER);
 
 
@@ -220,13 +218,26 @@ public class Ventana extends JFrame implements ActionListener {
         borrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                borrar();
+                borrarAfiliado();
             }
         });
 
         JButton suspender = new JButton("Suspender");
+        suspender.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               suspender();
+            }
+        });
 
         JButton modDatos = new JButton("Modificar datos");
+        modDatos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modDatos();
+            }
+        });
+
 
         JButton verRegistro = new JButton("Ver Registro");
         verRegistro.addActionListener(new ActionListener() {
@@ -243,7 +254,7 @@ public class Ventana extends JFrame implements ActionListener {
                 menuBibliotecario();
             }
         });
-    contenedor.setLayout(gl);
+        contenedor.setLayout(gl);
         contenedor.add(etiqueta);
         contenedor.add(agregar);
         contenedor.add(borrar);
@@ -267,17 +278,17 @@ public class Ventana extends JFrame implements ActionListener {
         panelFecha.add(new JTextField(2));
         */
         // Panel de datos
-        setSize(300,500);
+        setSize(300,400);
         contenedor.removeAll();
-        GridLayout gl = new GridLayout(2,1);
+        GridLayout gl = new GridLayout(7,2,30,30);
+
         contenedor.setLayout(gl);
-        JPanel panelDatos = new JPanel();
-        GridLayout gl1 = new GridLayout(5, 2, 0, 10);
-        panelDatos.setLayout(gl1);
+        contenedor.add(new JLabel("Agregar nuevo afiliado:"));
+        contenedor.add(new JLabel(""));
         JLabel dni = new JLabel("DNI: ");
-        panelDatos.add(dni);
+        contenedor.add(dni);
         JTextField Tdni = new JTextField(16);
-        panelDatos.add(Tdni);
+        contenedor.add(Tdni);
         Tdni.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -285,9 +296,9 @@ public class Ventana extends JFrame implements ActionListener {
             }
         });
 
-        panelDatos.add(new JLabel("Nombre:"));
+        contenedor.add(new JLabel("Nombre:"));
         JTextField Tnombre = new JTextField(16);
-        panelDatos.add(Tnombre);
+        contenedor.add(Tnombre);
         Tnombre.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -295,27 +306,27 @@ public class Ventana extends JFrame implements ActionListener {
             }
         });
 
-        panelDatos.add(new JLabel("Apellido:"));
+        contenedor.add(new JLabel("Apellido:"));
         JTextField Tapellido = new JTextField(16);
-        panelDatos.add(Tapellido);
+        contenedor.add(Tapellido);
         Tapellido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
-        panelDatos.add(new JLabel("Telefono:"));
+        contenedor.add(new JLabel("Telefono:"));
         JTextField Ttelefono= new JTextField(16);
-        panelDatos.add(Ttelefono);
+        contenedor.add(Ttelefono);
         Ttelefono.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
-        panelDatos.add(new JLabel("Direccion:"));
+        contenedor.add(new JLabel("Direccion:"));
         JTextField Tdirec = new JTextField(16);
-        panelDatos.add(Tdirec);
+        contenedor.add(Tdirec);
         Tdirec.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -324,10 +335,10 @@ public class Ventana extends JFrame implements ActionListener {
         });
 
         // Panel de botones
-        JPanel panelBotones = new JPanel();
-        panelBotones.setLayout(new FlowLayout());
+
+
         JButton aceptar=  new JButton("Aceptar");
-        panelBotones.add(aceptar);
+        contenedor.add(aceptar);
         aceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -337,7 +348,7 @@ public class Ventana extends JFrame implements ActionListener {
         });
 
         JButton cancelar=  new JButton("Cancelar");
-        panelBotones.add(cancelar);
+        contenedor.add(cancelar);
         cancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -345,8 +356,7 @@ public class Ventana extends JFrame implements ActionListener {
             }
         });
 
-        contenedor.add(panelDatos, BorderLayout.CENTER);
-        contenedor.add(panelBotones, BorderLayout.SOUTH);
+
 
         contenedor.validate();
         contenedor.repaint();
@@ -354,14 +364,18 @@ public class Ventana extends JFrame implements ActionListener {
     }
     public void verAfiliados(){
         contenedor.removeAll();
-        setSize(300,600);
+        setSize(700,300);
         contenedor.setLayout(new GridLayout(2,1));
         JList<Afiliado> lista = new JList<Afiliado>();
         JButton volver = new JButton("Volver");
         lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultListModel listModel = new DefaultListModel();
         for(Afiliado afi: controlador.verAfiliados(modelo)){
-            listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido());
+            if(afi.getFechaSuspension()!=null)
+            listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido()+ "   Suspendido hasta: "+ afi.getFechaSuspension().getDate()+"/"+(afi.getFechaSuspension().getMonth()+1));
+            else{
+                listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido());
+            }
 
         }
         lista.setModel(listModel);
@@ -381,17 +395,19 @@ public class Ventana extends JFrame implements ActionListener {
         contenedor.validate();
         contenedor.repaint();
     }
-    public void borrar(){
+    public void borrarAfiliado(){
         contenedor.removeAll();
         setSize(450,200);
         JPanel inferior = new JPanel();
         inferior.setLayout(new FlowLayout());
         JPanel superior = new JPanel();
-        superior.setLayout(new GridLayout(2,2));
-        contenedor.setLayout(new GridLayout(2,1));
+        JPanel central = new JPanel();
+        central.setLayout(new GridLayout(1,2,15,15));
+        superior.setLayout(new GridLayout(2,1));
+        contenedor.setLayout(new GridLayout(3,1,30,30));
         superior.add(new JLabel("Ingrese el DNI del usuario a borrar"));
-        superior.add(new JLabel(""));
-        superior.add(new JLabel("DNI :"));
+        //superior.add(new JLabel(""));
+        central.add(new JLabel("DNI :"));
         JTextField dni = new JTextField(16);
         dni.addActionListener(new ActionListener() {
             @Override
@@ -399,7 +415,7 @@ public class Ventana extends JFrame implements ActionListener {
 
             }
         });
-        superior.add(dni);
+        central.add(dni);
         JButton aceptar = new JButton("Aceptar");
         aceptar.addActionListener(new ActionListener() {
             @Override
@@ -421,11 +437,142 @@ public class Ventana extends JFrame implements ActionListener {
         inferior.add(aceptar);
         inferior.add(cancelar);
         contenedor.add(superior);
+        contenedor.add(central);
         contenedor.add(inferior);
         contenedor.validate();
         contenedor.repaint();
 
 ;
+
+    }
+    public void suspender(){
+        contenedor.removeAll();
+        contenedor.setLayout(new GridLayout(3,1));
+        JLabel superior = new JLabel("Borrar Afiliado del registro");
+        JPanel central = new JPanel();
+        central.setLayout(new GridLayout(3,2,10,10));
+        central.add(new JLabel("ID:"));
+        JTextField id = new JTextField(16);
+        central.add(id);
+        id.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        central.add(new JLabel("Dia:"));
+        JTextField dia = new JTextField(16);
+        central.add(dia);
+        dia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        central.add(new JLabel("Mes: "));
+        JTextField mes = new JTextField(16);
+        central.add(mes);
+        mes.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        JPanel inferior = new JPanel();
+        inferior.setLayout(new FlowLayout());
+        JButton aceptar = new JButton("Aceptar");
+        aceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(controlador.suspender(Integer.parseInt(id.getText()),Integer.parseInt(mes.getText()),Integer.parseInt(dia.getText()), modelo))
+                    Afiliados();
+            }
+        });
+        JButton cancelar = new JButton("Cancelar");
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Afiliados();
+            }
+        });
+        inferior.add(aceptar);
+        inferior.add(cancelar);
+        contenedor.add(superior);
+        contenedor.add(central);
+        contenedor.add(inferior);
+        contenedor.validate();
+        contenedor.repaint();
+
+
+    }
+    public void modDatos(){
+        contenedor.removeAll();
+        setSize(300,500);
+        contenedor.setLayout(new GridLayout(5,1,30,30));
+        JPanel panel1= new JPanel();
+        panel1.add(new JLabel("Modificar datos de un Afiliado existende: "));
+        JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridLayout(1,2,20,20));
+        panel2.add(new JLabel("DNI: "));
+
+        JTextField dni = new JTextField(16);
+        panel2.add(dni);
+        dni.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridLayout(1,2,20,20));
+        panel3.add(new JLabel("Nuevo telefono: "));
+        JTextField telefono = new JTextField(16);
+        panel3.add(telefono);
+        telefono.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridLayout(1,2,20,20));
+        panel4.add(new JLabel("Nueva Direccion: "));
+        JTextField direccion = new JTextField(16);
+
+        panel4.add(direccion);
+        direccion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        JPanel panel5 = new JPanel();
+        panel5.setLayout(new FlowLayout());
+        JButton aceptar =  new JButton("Aceptar");
+        aceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(controlador.modDatos(Integer.parseInt(dni.getText()),telefono.getText(),direccion.getText(),modelo))
+                    Afiliados();
+            }
+        });
+        panel5.add(aceptar);
+        JButton cancelar = new JButton("Cancelar");
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Afiliados();
+            }
+        });
+        panel5.add(cancelar);
+        contenedor.add(panel1);
+        contenedor.add(panel2);
+        contenedor.add(panel3);
+        contenedor.add(panel4);
+        contenedor.add(panel5);
+        contenedor.validate();
+        contenedor.repaint();
 
     }
     public void actionPerformed(ActionEvent event) {
