@@ -100,7 +100,7 @@ public class AfiliadoTest {
     @Test
     public void setFechaSuspension(){
         assertEquals(null,homero.getFechaSuspension());
-        homero.setFechaSuspension(06,24);
+        homero.setFechaSuspension(07,24);
         System.out.println(homero.getFechaSuspension());
         assertTrue(homero.getFechaSuspension().compareTo(new Date())>0);
         homero.setFechaSuspension(05,20);
