@@ -103,7 +103,7 @@ public class AfiliadoTest {
         homero.setFechaSuspension(06,24);
         System.out.println(homero.getFechaSuspension());
         assertTrue(homero.getFechaSuspension().compareTo(new Date())>0);
-        homero.setFechaSuspension(06,20);
+        homero.setFechaSuspension(05,20);
         assertTrue(homero.getFechaSuspension().compareTo(new Date())<0);
         System.out.println(homero.getFechaSuspension());
 
