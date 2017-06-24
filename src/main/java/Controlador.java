@@ -18,7 +18,7 @@ public interface Controlador {
     public boolean desafiliar(int dni,BibliotecaModel model);
     public boolean modPermisos(int dni,String password, BibliotecaModel model);
     public List<Afiliado> verAfiliados(BibliotecaModel modelo);
-
+    public boolean modDatos(int id,String telefono,String direccion, BibliotecaModel model);
 /*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items);
     public void eliminarEjemplar(int IdEjemplar, RegistroItems items );

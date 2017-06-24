@@ -150,6 +150,18 @@ public class ControladorBibliotecario implements Controlador {
 
         return lista;
     }
+    public boolean modDatos(int id,String telefono,String direccion, BibliotecaModel model){
+
+        try {
+            Afiliado afiliado = model.getAfiliados().getRegistroAfiliados().get(id);
+            afiliado.setTel(telefono);
+            afiliado.setDireccion(direccion);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
 
 /*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items){}

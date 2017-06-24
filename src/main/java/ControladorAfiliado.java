@@ -128,4 +128,7 @@ public class ControladorAfiliado implements Controlador {
 
         return null;
     }
+    public boolean modDatos(int id,String telefono,String direccion, BibliotecaModel model){
+        return false;
+    }
 }
