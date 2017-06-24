@@ -3,7 +3,7 @@ import java.util.Date;
  * Created by YepezHinostroza on 17/6/2017.
  */
 public class BibliotecaModel {
-    private Permisos permisos;
+    private Controlador controlador;
     private RegistroAfiliados afiliados;
     private RegistroItems items;
     private static BibliotecaModel UniqueInstance;
@@ -18,9 +18,9 @@ public class BibliotecaModel {
     private BibliotecaModel() {
         afiliados = new RegistroAfiliados();
         items = new RegistroItems();
-        permisos = new PermisosAfiliado();
+        controlador = new ControladorAfiliado();
         fechaActual = new Date();
-        permisos= new PermisosAfiliado();
+        controlador = new ControladorAfiliado();
     }
 
     public static BibliotecaModel getUniqueInstance() {
@@ -40,7 +40,7 @@ public class BibliotecaModel {
 
             if (afiliado instanceof Bibliotecario) {
                 if (((Bibliotecario) afiliado).getContrasena().equals(password))
-                    permisos = new PermisosBibliotecario();
+                    controlador = new ControladorBibliotecario();
                 else{
                     throw new Exception();
                 }
@@ -57,12 +57,12 @@ public class BibliotecaModel {
 
     }
 
-    public Permisos getPermisos() {
-        return permisos;
+    public Controlador getControlador() {
+        return controlador;
     }
 
     public void logout() {
-        permisos = new PermisosAfiliado();
+        controlador = new ControladorAfiliado();
     }
 
     public void setDate(int anio, int mes, int dia) {

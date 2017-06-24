@@ -25,7 +25,7 @@ public class BibliotecaModelTest {
     public void login(){
         try {
             model.login(19004245, "yhyhyh");
-            assertTrue(model.getPermisos() instanceof PermisosBibliotecario);
+            assertTrue(model.getControlador() instanceof ControladorBibliotecario);
         }
         catch (Exception e){
 
@@ -36,11 +36,11 @@ public class BibliotecaModelTest {
     @Test
     public void logout() throws Exception {
         model.logout();
-        assertTrue(model.getPermisos() instanceof PermisosAfiliado);
+        assertTrue(model.getControlador() instanceof ControladorAfiliado);
         model.login(19004245,"yhyhyh");
-        assertTrue(model.getPermisos() instanceof PermisosBibliotecario);
+        assertTrue(model.getControlador() instanceof ControladorBibliotecario);
         model.logout();
-        assertTrue(model.getPermisos() instanceof PermisosAfiliado);
+        assertTrue(model.getControlador() instanceof ControladorAfiliado);
     }
 
     @Test
