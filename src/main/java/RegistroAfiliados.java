@@ -48,6 +48,7 @@ public class RegistroAfiliados {
             //System.out.println("No se pudo crear");
 
         //}
+
     }
 
     public int sizeRegistro() {

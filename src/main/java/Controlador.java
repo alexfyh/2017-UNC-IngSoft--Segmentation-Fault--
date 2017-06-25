@@ -1,6 +1,7 @@
 /**
  * Created by YepezHinostroza on 17/6/2017.
  */
+import java.util.Date;
 import java.util.List;
 public interface Controlador {
 
@@ -19,8 +20,20 @@ public interface Controlador {
     public boolean modPermisos(int dni,String password, BibliotecaModel model);
     public List<Afiliado> verAfiliados(BibliotecaModel modelo);
     public boolean modDatos(int id,String telefono,String direccion, BibliotecaModel model);
-/*
+
+    public boolean agregarLibro(String titulo, String autor, String fechaPublicacion, Categoria categoria, int edicion, String editorial, BibliotecaModel modelo);
+    public boolean agregarRevista(String titulo, String autor, String fechaPublicacion, Categoria categoria, BibliotecaModel modelo);
+    public boolean agregarAudoVisual(String titulo, String autor, String fechaPublicacion, Categoria categoria,String edicion, String editorial, String duracion, BibliotecaModel modelo);
+    public boolean agregarTesis(String titulo, String autor, String fechaPublicacion, Categoria categoria, BibliotecaModel modelo);
+
+    public boolean borrarEjemplar(int id, BibliotecaModel modelo);
+    public boolean darBaja( int id, BibliotecaModel modelo);
+    public boolean setFecha(String fecha,BibliotecaModel model);
+    public Date getFecha(BibliotecaModel modelo);
+
+    /*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items);
+
     public void eliminarEjemplar(int IdEjemplar, RegistroItems items );
 
     public void consultarDisponibilida(Integer idItem,RegistroItems items);

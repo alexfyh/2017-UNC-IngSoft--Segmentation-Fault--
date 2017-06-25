@@ -8,6 +8,7 @@ public class EjemplarTesis extends Ejemplar{
         Item tesis = new Tesis( titulo,  autor,  fechaPublicacion, categoria);
         this.setItem(tesis);
         this.IdEjemplar = Ejemplar.EjemplarSig;
+        this.estado= EstadoEjemplar.DISPONIBLE;
         Ejemplar.incrementarSiguiente();
 
 

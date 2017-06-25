@@ -3,6 +3,7 @@
  */
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 public class ControladorBibliotecario implements Controlador {
 
 
@@ -10,8 +11,28 @@ public class ControladorBibliotecario implements Controlador {
     public boolean login (int dni, String password, BibliotecaModel model) {
 
         try {
-            model.login(dni, password);
-            return true;
+
+                Afiliado afiliado = model.getAfiliados().getAfiliado(String.valueOf(dni));
+                if (afiliado != null || password != null) {
+
+                    if (afiliado instanceof Bibliotecario) {
+                        if (((Bibliotecario) afiliado).getContrasena().equals(password))
+                            return true;
+
+                        else{
+                            throw new Exception();
+                        }
+
+                    } else {
+                        throw new Exception();
+
+                    }
+
+                } else {
+                    return false;
+
+                }
+
         }
         catch (Exception e){
             return  false;
@@ -88,7 +109,7 @@ public class ControladorBibliotecario implements Controlador {
 
     public boolean setFecha(int year,int month, int day,BibliotecaModel modelo){
        try{
-           modelo.setDate(year, month, day);
+           modelo.setDate(year, month-1, day);
             return true;
        }
        catch(Exception e ){
@@ -154,8 +175,10 @@ public class ControladorBibliotecario implements Controlador {
 
         try {
             Afiliado afiliado = model.getAfiliados().getRegistroAfiliados().get(id);
-            afiliado.setTel(telefono);
-            afiliado.setDireccion(direccion);
+            if(direccion.length()!=0)
+                afiliado.setTel(telefono);
+            if(telefono.length()!=0)
+                afiliado.setDireccion(direccion);
             return true;
         }
         catch(Exception e){
@@ -163,6 +186,121 @@ public class ControladorBibliotecario implements Controlador {
         }
     }
 
+    public boolean agregarLibro(String titulo, String autor, String fechaPublicacion, Categoria categoria, int edicion, String editorial, BibliotecaModel modelo){
+        try{
+
+            String[] numeros = fechaPublicacion.split("/",3);
+            int dia = Integer.parseInt(numeros[0]);
+            //if(dia<1||dia>31)
+                //throw new Exception("Dia invalido");
+            int mes = Integer.parseInt(numeros[1]);
+            //if(mes<0||mes>12)
+                //throw new Exception("Mes invalido");
+            int anio = Integer.parseInt(numeros[2]);
+            //if(anio<1900||anio>(new Date()).getYear()+1)
+                //throw new Exception("Anio invalido");
+            Date fecha = new Date(anio, mes, dia);
+            EjemplarLibro libro = new EjemplarLibro(titulo,autor,fecha,categoria,edicion,editorial);
+            modelo.getItems().agregarEjemplar(libro);
+            return true;
+
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    public boolean agregarRevista(String titulo, String autor, String fechaPublicacion, Categoria categoria, BibliotecaModel modelo){
+        try{
+
+            String[] numeros = fechaPublicacion.split("/",3);
+            int dia = Integer.parseInt(numeros[0]);
+            int mes = Integer.parseInt(numeros[1]);
+            int anio = Integer.parseInt(numeros[2]);
+            Date fecha = new Date(anio, mes, dia);
+            EjemplarRevista revista = new EjemplarRevista(titulo,autor,fecha,categoria);
+            modelo.getItems().agregarEjemplar(revista);
+            return true;
+
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean agregarAudoVisual(String titulo, String autor, String fechaPublicacion, Categoria categoria,String edicion, String editorial, String duracion, BibliotecaModel modelo){
+        try{
+
+            String[] numeros = fechaPublicacion.split("/",3);
+            int dia = Integer.parseInt(numeros[0]);
+            int mes = Integer.parseInt(numeros[1]);
+            int anio = Integer.parseInt(numeros[2]);
+            Date fecha = new Date(anio-1900, mes, dia);
+            int duracionEnSegundos = Integer.parseInt(duracion);
+            int ed =Integer.parseInt(edicion);
+            EjemplarAudioVisual audio = new EjemplarAudioVisual(titulo,autor,fecha,categoria, ed,editorial,duracionEnSegundos);
+            modelo.getItems().agregarEjemplar(audio);
+            return true;
+
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean agregarTesis(String titulo, String autor, String fechaPublicacion, Categoria categoria, BibliotecaModel modelo){
+        try{
+
+            String[] numeros = fechaPublicacion.split("/",3);
+            int dia = Integer.parseInt(numeros[0]);
+            int mes = Integer.parseInt(numeros[1]);
+            int anio = Integer.parseInt(numeros[2]);
+            Date fecha = new Date(anio-1900, mes, dia);
+
+            EjemplarTesis tesis = new EjemplarTesis(titulo,autor,fecha,categoria);
+            modelo.getItems().agregarEjemplar(tesis);
+            return true;
+
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean borrarEjemplar(int id, BibliotecaModel modelo){
+        try {
+            modelo.getItems().deleteEjemplar(id);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+
+    }
+    public boolean darBaja(int id, BibliotecaModel modelo){
+        try{
+            Ejemplar ejem = modelo.getItems().encontrarEjemplar(id);
+            ejem.deshabilitarEjemplar();
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+    public boolean setFecha(String fecha, BibliotecaModel modelo){
+        try{
+            String[] numeros =fecha.split("/",3);
+            int dia = Integer.parseInt(numeros[0]);
+            int mes = Integer.parseInt(numeros[1]);
+            int anio = Integer.parseInt(numeros[2]);
+            modelo.setDate(anio-1900,mes,dia);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public Date getFecha(BibliotecaModel modelo){ return modelo.getDate();}
 /*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items){}
     public void eliminarEjemplar(Integer IdEjemplar, RegistroItems items ){}

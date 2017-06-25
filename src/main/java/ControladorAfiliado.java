@@ -1,6 +1,7 @@
 /**
  * Created by YepezHinostroza on 22/6/2017.
  */
+import java.util.Date;
 import java.util.List;
 public class ControladorAfiliado implements Controlador {
 
@@ -8,12 +9,33 @@ public class ControladorAfiliado implements Controlador {
     public boolean login (int dni, String password, BibliotecaModel model){
 
         try {
-            model.login(dni, password);
-            return true;
+
+            Afiliado afiliado = model.getAfiliados().getAfiliado(String.valueOf(dni));
+            if (afiliado != null || password != null) {
+
+                if (afiliado instanceof Bibliotecario) {
+                    if (((Bibliotecario) afiliado).getContrasena().equals(password))
+                        return true;
+
+                    else{
+                        throw new Exception();
+                    }
+
+                } else {
+                    throw new Exception();
+
+                }
+
+            } else {
+                return false;
+
+            }
+
         }
         catch (Exception e){
             return  false;
         }
+
     }
 
     public boolean logout ( BibliotecaModel model){
@@ -131,4 +153,14 @@ public class ControladorAfiliado implements Controlador {
     public boolean modDatos(int id,String telefono,String direccion, BibliotecaModel model){
         return false;
     }
+    public boolean agregarLibro(String titulo, String autor, String fechaPublicacion, Categoria categoria, int edicion, String editorial, BibliotecaModel modelo){return false;}
+    public boolean agregarRevista(String titulo, String autor, String fechaPublicacion, Categoria categoria, BibliotecaModel modelo){return false;}
+    public boolean agregarAudoVisual(String titulo, String autor, String fechaPublicacion, Categoria categoria,String edicion, String editorial, String duracion, BibliotecaModel modelo){return false;}
+    public boolean agregarTesis(String titulo, String autor, String fechaPublicacion, Categoria categoria, BibliotecaModel modelo){return false;}
+    public boolean borrarEjemplar(int id, BibliotecaModel modelo){return false;}
+    public boolean darBaja(int id, BibliotecaModel modelo){return false;}
+    public boolean setFecha(String fecha,BibliotecaModel model){return  false;}
+    public Date getFecha(BibliotecaModel modelo){ return modelo.getDate();}
+
+
 }

@@ -11,6 +11,7 @@ public class EjemplarLibro extends Ejemplar{
         Item libro = new Libro( titulo,  autor,  fechaPublicacion, categoria, edicion, editorial);
         this.setItem(libro);
         this.IdEjemplar = Ejemplar.EjemplarSig;
+        this.estado= EstadoEjemplar.DISPONIBLE;
         Ejemplar.incrementarSiguiente();
 
 

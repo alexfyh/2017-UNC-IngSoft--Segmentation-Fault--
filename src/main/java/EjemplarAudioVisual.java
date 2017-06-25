@@ -8,6 +8,7 @@ public class EjemplarAudioVisual extends Ejemplar {
         Item audio = new AudioVisual( titulo,  autor,  fechaPublicacion, categoria,edicion,editorial,duracion);
         this.setItem(audio);
         this.IdEjemplar = Ejemplar.EjemplarSig;
+        this.estado= EstadoEjemplar.DISPONIBLE;
         Ejemplar.incrementarSiguiente();
 
 

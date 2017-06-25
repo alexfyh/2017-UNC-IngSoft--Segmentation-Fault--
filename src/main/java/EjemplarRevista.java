@@ -9,6 +9,7 @@ public class EjemplarRevista extends Ejemplar {
         Item revista  = new Revista( titulo,  autor,  fechaPublicacion, categoria);
         this.setItem(revista);
         this.IdEjemplar = Ejemplar.EjemplarSig;
+        this.estado= EstadoEjemplar.DISPONIBLE;
         Ejemplar.incrementarSiguiente();
 
     }

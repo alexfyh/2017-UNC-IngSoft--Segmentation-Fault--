@@ -1,4 +1,6 @@
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 /**
  * Created by YepezHinostroza on 17/6/2017.
  */
@@ -8,11 +10,15 @@ public class BibliotecaModel {
     private RegistroItems items;
     private static BibliotecaModel UniqueInstance;
     private Date fechaActual;
+    private List<Observer> observerList;
 
     public RegistroAfiliados getAfiliados(){
+
         return afiliados;
     }
     public RegistroItems getItems(){
+
+
         return items;
     }
     private BibliotecaModel() {
@@ -21,6 +27,7 @@ public class BibliotecaModel {
         controlador = new ControladorAfiliado();
         fechaActual = new Date();
         controlador = new ControladorAfiliado();
+        observerList = new ArrayList<Observer>();
     }
 
     public static BibliotecaModel getUniqueInstance() {
@@ -33,29 +40,7 @@ public class BibliotecaModel {
 
     }
 
-    public void login(int id, String password) throws Exception{
 
-        Afiliado afiliado = afiliados.getAfiliado(String.valueOf(id));
-        if (afiliado != null || password != null) {
-
-            if (afiliado instanceof Bibliotecario) {
-                if (((Bibliotecario) afiliado).getContrasena().equals(password))
-                    controlador = new ControladorBibliotecario();
-                else{
-                    throw new Exception();
-                }
-
-            } else {
-                throw new Exception();
-
-            }
-
-        } else {
-            throw new Exception();
-        }
-
-
-    }
 
     public Controlador getControlador() {
         return controlador;
@@ -66,7 +51,9 @@ public class BibliotecaModel {
     }
 
     public void setDate(int anio, int mes, int dia) {
-        this.fechaActual = new Date(anio, mes, dia);
+        this.fechaActual = new Date(anio, mes-1, dia);
+
+        notifyObserver();
     }
 
     public Date getDate() {
@@ -84,5 +71,22 @@ public class BibliotecaModel {
         catch(Exception e){return false;}
 
     }
+    public void registerObserver(Observer observer){
+        observerList.add(observer);
+    }
+
+    public void removeObserver(Observer observer){
+        int i = observerList.indexOf(observer);
+        if (i >= 0) {
+            observerList.remove(i);
+        }
+    }
+    public void notifyObserver(){
+        for(Observer o: observerList){
+            o.update();
+        }
+    }
+
+
 
 }
