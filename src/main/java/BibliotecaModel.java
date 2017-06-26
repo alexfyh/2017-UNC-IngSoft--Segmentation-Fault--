@@ -39,6 +39,14 @@ public class BibliotecaModel {
         }
 
     }
+    public void agregarEjemplar(Ejemplar ejem){
+        items.agregarEjemplar(ejem);
+        notifyObserver();
+    }
+    public void borrarEjemplar(int id){
+        items.deleteEjemplar(id);
+        notifyObserver();
+    }
 
 
 
@@ -60,7 +68,30 @@ public class BibliotecaModel {
         return this.fechaActual;
     }
 
+    public void devolver(int idEjemplar){
+        RegistroAfiliados afiliados = getAfiliados();
+        RegistroItems items = getItems();
 
+            Ejemplar ejemplar=  items.encontrarEjemplar(idEjemplar);
+            ejemplar.getAfiliado().prestados.remove(ejemplar);
+            ejemplar.devolverEjemplar();
+            notifyObserver();
+
+
+
+        }
+
+    public Item getItem(int id){
+        try {
+            return getItems().getRegistroCompleto().get(id);
+        }
+        catch(Exception e){
+            return null;
+
+        }
+    }
+
+/*
     public boolean agregarRevista(String titulo, String autor, Date fechaPublicacion, Categoria categoria){
         try {
             Ejemplar revista = new EjemplarRevista(titulo, autor, fechaPublicacion, categoria);
@@ -71,6 +102,9 @@ public class BibliotecaModel {
         catch(Exception e){return false;}
 
     }
+ */
+
+
     public void registerObserver(Observer observer){
         observerList.add(observer);
     }

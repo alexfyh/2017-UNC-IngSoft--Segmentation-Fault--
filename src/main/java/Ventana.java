@@ -15,6 +15,8 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
     BibliotecaModel modelo;
     private static JLabel fechaModelo;
     private EstadoVentanas actual;
+    private int itemConsultado;
+    private Categoria catConsultada;
 
 
 
@@ -71,6 +73,13 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
         });
 
         JButton consulta = new JButton("Consulta");
+        consulta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultas();
+
+            }
+        });
         //////////////////////////////////////////////////////////////////////////////
         //fechaModelo = new JLabel(modelo.getDate().toString());
         contenedor.add(acceso);
@@ -106,6 +115,13 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
             }
         });
         JButton consulta = new JButton("Consultas");
+        consulta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultas();
+
+            }
+        });
 
         JButton afiliado = new JButton("Afiliados");
         afiliado.addActionListener(new ActionListener() {
@@ -405,34 +421,59 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
     public void verAfiliados(){
         this.actual = EstadoVentanas.VERAFILIADOS;
         contenedor.removeAll();
-        setSize(700,300);
-        contenedor.setLayout(new GridLayout(2,1));
-        JList<Afiliado> lista = new JList<Afiliado>();
-        JButton volver = new JButton("Volver");
+        setSize(600,350);
+        contenedor.setLayout(null);
+        JLabel etiqueta = new JLabel("Registro de Afiliados:");
+        etiqueta.setBounds(0,0,300,50);
+        JList lista = new JList();
         lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultListModel listModel = new DefaultListModel();
         for(Afiliado afi: controlador.verAfiliados(modelo)){
-            if(afi.getFechaSuspension()!=null&&afi.getFechaSuspension().compareTo(controlador.getFecha(modelo))>0)
-            listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido()+ "   Suspendido hasta: "+afi.getFechaSuspension().toString()+" "+ afi.getFechaSuspension().getDate()+"/"+(afi.getFechaSuspension().getMonth()+1));
-            else{
+            if(afi.getFechaSuspension()!=null&&afi.getFechaSuspension().compareTo(controlador.getFecha(modelo))>0) {
+                listModel.addElement("" + afi.getId() + "  " + afi.getNombre() + "  " + afi.getApellido() + "   Suspendido hasta: " + afi.getFechaSuspension().getDate() + "/" + (afi.getFechaSuspension().getMonth() + 1));
+                listModel.addElement("                 Telefono: " +afi.getTel()+ "   Direccion:  "+ afi.getDireccion());
+                String libros="";
+                for (Ejemplar ejem: afi.prestados()){
+                    libros= libros +"["+ejem.getItem().getTitulo()+"]   ";
+                }
+                listModel.addElement("                 Libros:  " +libros);
+
+            }else{
                 listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido());
+                listModel.addElement("                 Telefono: " +afi.getTel()+ "   Direccion:  "+ afi.getDireccion());
+                String libros="";
+                for (Ejemplar ejem: afi.prestados()){
+                    libros= libros +"["+ejem.getItem().getTitulo()+"]   ";
+                }
+                listModel.addElement("                 Libros:  " +libros);
             }
 
         }
         lista.setModel(listModel);
-
         JScrollPane scrollLista;
         scrollLista = new JScrollPane();
-        scrollLista.setBounds(20, 120,220, 80);
-        volver.setSize(100,100);
+        scrollLista.setBounds(20, 50,560, 200);
+        scrollLista.setViewportView(lista);
+        JButton volver = new JButton("Volver");
+
+
+
+        volver.setBounds(275,255,100,40);
         volver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Afiliados();
             }
         });
-        contenedor.add(lista);
+
+
+
+        contenedor.add(etiqueta);
+        contenedor.add(scrollLista);
+
         contenedor.add(volver);
+
+
         contenedor.validate();
         contenedor.repaint();
     }
@@ -1147,10 +1188,11 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
     public void verEjemplares(){
         this.actual = EstadoVentanas.VEREJEMPLARES;
         contenedor.removeAll();
-        setSize(700,300);
-        contenedor.setLayout(new GridLayout(2,1));
-        JList<Afiliado> lista = new JList<Afiliado>();
-        JButton volver = new JButton("Volver");
+        setSize(650,350);
+        contenedor.setLayout(null);
+        JLabel etiqueta = new JLabel("Registro de Ejemplares:");
+        etiqueta.setBounds(0,0,300,50);
+        JList lista = new JList();
         lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultListModel listModel = new DefaultListModel();
         for(Ejemplar ejem : modelo.getItems().listarEjemplares()){
@@ -1160,22 +1202,32 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
                 listModel.addElement("Id Ejemplar:  "+ejem.getIdEjemplar()+ "    Item: "+ejem.getItem().getIdItem()+"   "+ ejem.getItem().getTitulo()+ " ["+ejem.getItem().getCategoria()+"]  "+"   Prestado a:   "+ ejem.getAfiliado().getApellido()+ " , "+ ejem.getAfiliado().getNombre());
 
         }
-        lista.setModel(listModel);
 
+        lista.setModel(listModel);
         JScrollPane scrollLista;
         scrollLista = new JScrollPane();
-        scrollLista.setBounds(20, 120,220, 80);
-        volver.setSize(100,100);
+        scrollLista.setBounds(20, 50,590, 200);
+        scrollLista.setViewportView(lista);
+        JButton volver = new JButton("Volver");
+        volver.setBounds(275,255,100,40);
         volver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ejemplares();
             }
         });
-        contenedor.add(lista);
+
+
+
+        contenedor.add(etiqueta);
+        contenedor.add(scrollLista);
+
         contenedor.add(volver);
+
+
         contenedor.validate();
         contenedor.repaint();
+
 
     }
     public void borrarEjemplar(){
@@ -1469,6 +1521,260 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
         contenedor.repaint();
 
     }
+
+    public void consultas(){
+        this.actual = EstadoVentanas.CONSULTAS;
+        contenedor.removeAll();
+        setSize(300, 300);
+        GridLayout gl= new GridLayout(4,1,10,10);
+        JLabel etiqueta = new JLabel("Tipo de consultas",SwingConstants.CENTER);
+
+
+        JButton agregar = new JButton("Consulta por item");
+        agregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultaItem();
+            }
+        });
+
+        JButton borrar = new JButton("Consulta por categoria ");
+        borrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultaCategoria();
+            }
+        });
+
+
+
+        JButton atras = new JButton("Volver");
+        atras.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               if(controlador instanceof ControladorBibliotecario)
+                   menuBibliotecario();
+               else{
+                   menuInicial();
+               }
+            }
+        });
+        contenedor.setLayout(gl);
+        contenedor.add(etiqueta);
+        contenedor.add(agregar);
+        contenedor.add(borrar);
+
+        contenedor.add(atras);
+
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
+
+    public void consultaItem(){
+        this.actual = EstadoVentanas.CONSULTAITEM;
+        contenedor.removeAll();
+        this.setSize(400,300);
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setLayout(new FlowLayout());
+        panelSuperior.add(new JLabel("Ingrese la id del Item: "));
+        JPanel panelDatos = new JPanel();
+        GridLayout gl = new GridLayout(1, 2, 20, 20);
+        panelDatos.setLayout(gl);
+        panelDatos.add(new JLabel("ID:"));
+        JTextField id= new JTextField(16);
+        id.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        panelDatos.add(id);
+
+
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new FlowLayout());
+        JButton aceptar=new JButton("Aceptar");
+        aceptar.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(controlador.getItem(Integer.parseInt(id.getText()),modelo))
+                    resultadoConsultaItem(Integer.parseInt(id.getText()));
+
+            }
+        });
+        panelBotones.add(aceptar);
+        JButton cancelar=new JButton("Cancelar");
+        panelBotones.add(cancelar);
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultas();
+            }
+        });
+        //Container cp = getContentPane();
+        if(id.getText()!=null&&id.getText().length()!=0)
+        {itemConsultado = Integer.parseInt(id.getText());}
+
+        contenedor.setLayout(new GridLayout(3,1,20,20));
+        contenedor.add(panelSuperior);
+        contenedor.add(panelDatos);
+        contenedor.add(panelBotones);
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
+    public void resultadoConsultaItem(int d){
+        this.actual = EstadoVentanas.RESULTADOITEM;
+        contenedor.removeAll();
+        setSize(650,350);
+        contenedor.setLayout(null);
+        JLabel etiqueta = new JLabel("Descripcion del item");
+        etiqueta.setBounds(0,0,300,50);
+        JList lista = new JList();
+        lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        DefaultListModel listModel = new DefaultListModel();
+        Item item = modelo.getItem(d);
+        listModel.addElement("Titulo:   "+item.getTitulo());
+        listModel.addElement("Autor:  "+ item.getAutor());
+        listModel.addElement("Categoria:  ["+item.getCategoria()+"]   ");
+
+        listModel.addElement("Ejemplares :");
+
+        for(Ejemplar ejem: item.ejemplares){
+
+            listModel.addElement( "     ["+ejem.getIdEjemplar()+"]"+ "    Estado :  "+ ejem.getEstado());
+
+        }
+
+
+
+        lista.setModel(listModel);
+        JScrollPane scrollLista;
+        scrollLista = new JScrollPane();
+        scrollLista.setBounds(20, 50,590, 200);
+        scrollLista.setViewportView(lista);
+        JButton volver = new JButton("Volver");
+        volver.setBounds(275,255,100,40);
+        volver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultas();
+            }
+        });
+
+
+
+        contenedor.add(etiqueta);
+        contenedor.add(scrollLista);
+
+        contenedor.add(volver);
+
+
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
+    public void consultaCategoria(){
+        this.actual = EstadoVentanas.CONSULTACATEGORIA;
+        setSize(500,250);
+        contenedor.removeAll();
+        GridLayout gl = new GridLayout(3,2,15,15);
+
+        contenedor.setLayout(gl);
+        contenedor.add(new JLabel("Seleccione la categoria: "));
+        contenedor.add(new JLabel(""));
+
+        contenedor.add(new JLabel("Categoria: "));
+        //String[] categorias = [""]
+        JComboBox categoria = new JComboBox(Categoria.values());
+        categoria.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        contenedor.add(categoria);
+
+        JButton aceptar=  new JButton("Aceptar");
+        contenedor.add(aceptar);
+        aceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    resultadoCategoria((Categoria)categoria.getSelectedItem());
+            }
+        });
+
+        JButton cancelar=  new JButton("Cancelar");
+        contenedor.add(cancelar);
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultas();
+            }
+        });
+
+    if(categoria.getSelectedItem()!=null){
+        catConsultada = (Categoria) categoria.getSelectedItem();
+    }
+
+
+
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
+    public void resultadoCategoria(Categoria categoria){
+        this.actual = EstadoVentanas.RESULTADOCATEGORIA;
+        contenedor.removeAll();
+        setSize(600,350);
+        contenedor.setLayout(null);
+        JLabel etiqueta = new JLabel("Items de la categoria :"+ categoria);
+        etiqueta.setBounds(0,0,300,50);
+        JList lista = new JList();
+        lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        DefaultListModel listModel = new DefaultListModel();
+        for(Item  item: modelo.getItems().getRegistroCompleto().values()){
+            if(item.getCategoria()==categoria) {
+                listModel.addElement("ID Item :" + item.getIdItem() + "    Titulo:  " + item.getTitulo() +"    Autor:   "+item.getAutor() );
+                listModel.addElement("Ejemplares :");
+                for(Ejemplar ejem: item.ejemplares){
+
+                    listModel.addElement( "     ["+ejem.getIdEjemplar()+"]"+ "    Estado :  "+ ejem.getEstado());
+
+                }
+
+            }
+        }
+        lista.setModel(listModel);
+        JScrollPane scrollLista;
+        scrollLista = new JScrollPane();
+        scrollLista.setBounds(20, 50,560, 200);
+        scrollLista.setViewportView(lista);
+        JButton volver = new JButton("Volver");
+
+
+
+        volver.setBounds(275,255,100,40);
+        volver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                consultas();
+            }
+        });
+
+
+
+        contenedor.add(etiqueta);
+        contenedor.add(scrollLista);
+
+        contenedor.add(volver);
+
+
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
     public void actualizarVentana(){
         switch ( actual){
             case INICIAL: menuInicial();
@@ -1520,10 +1826,24 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
                 break;
             case DEVOLUCION: devolucion();
                 break;
+            case CONSULTAS: consultas();
+                break;
+            case CONSULTAITEM: consultaItem();
+                break;
+            case CONSULTACATEGORIA: consultaCategoria();
+                break;
+            case RESULTADOITEM: try{resultadoConsultaItem(itemConsultado);}
+                                        catch (Exception e){menuInicial();}
+                break;
+            case RESULTADOCATEGORIA: try{resultadoCategoria(catConsultada);}
+                                            catch(Exception e){menuInicial();}
+                break;
+            default:menuInicial();
 
         }
 /*INICIAL, BIBLIOTECARIO,LOGOUT,LOGIN,AFILIADOS,AGREGARAFILIADO,VERAFILIADOS,BORRARAFILIADO,SUSPENDER,MODDATOS,MODPERMISOS,EJEMPLARES,AGREGAREJEMPLARES,
-    AGREGARLIBRO,AGREGARREVISTA,AGREGARAUDIOV,AGREGARTESIS,VEREJEMPLARES,BORRAREJEMPLAR,DARBAJA,MODFECHA */
+    AGREGARLIBRO,AGREGARREVISTA,AGREGARAUDIOV,AGREGARTESIS,VEREJEMPLARES,BORRAREJEMPLAR,DARBAJA,MODFECHA
+    CONSULTAS,CONSULTAITEM, CONSULTACATEGORIA,RESULTADOITEM, RESULTADOCATEGORIA*/
 
     }
     public void actionPerformed(ActionEvent event) {

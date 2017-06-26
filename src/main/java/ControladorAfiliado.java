@@ -161,6 +161,19 @@ public class ControladorAfiliado implements Controlador {
     public boolean darBaja(int id, BibliotecaModel modelo){return false;}
     public boolean setFecha(String fecha,BibliotecaModel model){return  false;}
     public Date getFecha(BibliotecaModel modelo){ return modelo.getDate();}
+    public boolean getItem(int id,BibliotecaModel modelo) {
+        try {
+            Item item = null;
+
+            item = modelo.getItem(id);
+            return item!=null;
+
+        }
+        catch(Exception e){
+            return false;
+        }
+
+    }
 
 
 }

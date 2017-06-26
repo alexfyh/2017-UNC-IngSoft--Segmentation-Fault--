@@ -45,6 +45,10 @@ public abstract class Ejemplar {
         return afiliado;
     }
 
+    public void setPrestado(){
+        this.estado=EstadoEjemplar.PRESTADO;
+    }
+
 
 
 

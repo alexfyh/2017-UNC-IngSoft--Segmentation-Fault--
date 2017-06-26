@@ -62,9 +62,11 @@ public class ControladorBibliotecario implements Controlador {
             if (afiliados.getAfiliado(String.valueOf(dni)) != null && items.encontrarEjemplar(idEjemplar) != null) {
                 Afiliado afiliado= afiliados.getAfiliado(String.valueOf(dni));
                 Ejemplar ejemplar = items.encontrarEjemplar(idEjemplar);
-                if (afiliado.getCantPrestada() <= Afiliado.PrestamoMax&&(afiliado.fechaSuspension==null || afiliado.fechaSuspension.compareTo(model.getDate())<0)|| ejemplar.getEstado()==EstadoEjemplar.DISPONIBLE) {
+                if (afiliado.getCantPrestada() < Afiliado.PrestamoMax&&(afiliado.fechaSuspension==null || afiliado.fechaSuspension.compareTo(model.getDate())<0)&& ejemplar.getEstado()==EstadoEjemplar.DISPONIBLE) {
                     afiliado.prestados.add(ejemplar);
+                    ejemplar.setPrestado();
                     ejemplar.prestarEjemplar(afiliado);
+                    model.notifyObserver();
                     return true;
                 }
                 else return false;
@@ -78,12 +80,9 @@ public class ControladorBibliotecario implements Controlador {
     }
 
     public boolean devolver(int idEjemplar, BibliotecaModel model){
-        RegistroAfiliados afiliados = model.getAfiliados();
-        RegistroItems items = model.getItems();
+
         try{
-            Ejemplar ejemplar=  items.encontrarEjemplar(idEjemplar);
-            ejemplar.getAfiliado().prestados.remove(ejemplar);
-            ejemplar.devolverEjemplar();
+            model.devolver(idEjemplar);
             return true;
 
         }
@@ -98,6 +97,7 @@ public class ControladorBibliotecario implements Controlador {
         try{
             afiliado= model.getAfiliados().getAfiliado(String.valueOf(dni));
             afiliado.setFechaSuspension(mes,dia);
+            model.notifyObserver();
             return true;
 
 
@@ -122,6 +122,7 @@ public class ControladorBibliotecario implements Controlador {
 
             String id = String.valueOf(dni);
             model.getAfiliados().addAfiliado(id, nombre, apellido, telefono, direccion);
+            model.notifyObserver();
             return true;
         }
         catch(Exception e){
@@ -132,6 +133,7 @@ public class ControladorBibliotecario implements Controlador {
     public boolean desafiliar(int dni,BibliotecaModel model){
         try{
             model.getAfiliados().removeAfiliado(String.valueOf(dni));
+            model.notifyObserver();
             return true;
 
         }
@@ -201,7 +203,7 @@ public class ControladorBibliotecario implements Controlador {
                 //throw new Exception("Anio invalido");
             Date fecha = new Date(anio, mes, dia);
             EjemplarLibro libro = new EjemplarLibro(titulo,autor,fecha,categoria,edicion,editorial);
-            modelo.getItems().agregarEjemplar(libro);
+            modelo.agregarEjemplar(libro);
             return true;
 
         }
@@ -218,7 +220,7 @@ public class ControladorBibliotecario implements Controlador {
             int anio = Integer.parseInt(numeros[2]);
             Date fecha = new Date(anio, mes, dia);
             EjemplarRevista revista = new EjemplarRevista(titulo,autor,fecha,categoria);
-            modelo.getItems().agregarEjemplar(revista);
+            modelo.agregarEjemplar(revista);
             return true;
 
         }
@@ -238,7 +240,7 @@ public class ControladorBibliotecario implements Controlador {
             int duracionEnSegundos = Integer.parseInt(duracion);
             int ed =Integer.parseInt(edicion);
             EjemplarAudioVisual audio = new EjemplarAudioVisual(titulo,autor,fecha,categoria, ed,editorial,duracionEnSegundos);
-            modelo.getItems().agregarEjemplar(audio);
+            modelo.agregarEjemplar(audio);
             return true;
 
         }
@@ -257,7 +259,7 @@ public class ControladorBibliotecario implements Controlador {
             Date fecha = new Date(anio-1900, mes, dia);
 
             EjemplarTesis tesis = new EjemplarTesis(titulo,autor,fecha,categoria);
-            modelo.getItems().agregarEjemplar(tesis);
+            modelo.agregarEjemplar(tesis);
             return true;
 
         }
@@ -268,7 +270,7 @@ public class ControladorBibliotecario implements Controlador {
 
     public boolean borrarEjemplar(int id, BibliotecaModel modelo){
         try {
-            modelo.getItems().deleteEjemplar(id);
+            modelo.borrarEjemplar(id);
             return true;
         }
         catch(Exception e){
@@ -280,6 +282,7 @@ public class ControladorBibliotecario implements Controlador {
         try{
             Ejemplar ejem = modelo.getItems().encontrarEjemplar(id);
             ejem.deshabilitarEjemplar();
+            modelo.notifyObserver();
             return true;
         }
         catch(Exception e){
@@ -301,12 +304,26 @@ public class ControladorBibliotecario implements Controlador {
     }
 
     public Date getFecha(BibliotecaModel modelo){ return modelo.getDate();}
+    public boolean getItem(int id,BibliotecaModel modelo) {
+        try {
+            Item item = null;
+
+            item = modelo.getItem(id);
+
+            return item!=null;
+
+        }
+        catch(Exception e){
+            return false;
+        }
+
+    }
 /*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items){}
     public void eliminarEjemplar(Integer IdEjemplar, RegistroItems items ){}
 
     public void consultarDisponibilida(Integer idItem,RegistroItems items){}
-    public void verInfo(Integer idItem){}
+    public void verInfo(Integer idItem){}/////////////////////////
     public void filtrarPorCategoria(){}
 
 

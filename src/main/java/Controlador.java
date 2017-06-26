@@ -30,6 +30,7 @@ public interface Controlador {
     public boolean darBaja( int id, BibliotecaModel modelo);
     public boolean setFecha(String fecha,BibliotecaModel model);
     public Date getFecha(BibliotecaModel modelo);
+    public boolean getItem(int id,BibliotecaModel modelo);
 
     /*
     public void agregarEjemplar(Ejemplar ejemplar,RegistroItems items);
