@@ -21,27 +21,7 @@ public class BibliotecaModelTest {
         assertTrue(model==model2);
     }
 
-    @Test
-    public void login(){
-        try {
-            model.login(19004245, "yhyhyh");
-            assertTrue(model.getControlador() instanceof ControladorBibliotecario);
-        }
-        catch (Exception e){
 
-        }
-
-    }
-
-    @Test
-    public void logout() throws Exception {
-        model.logout();
-        assertTrue(model.getControlador() instanceof ControladorAfiliado);
-        model.login(19004245,"yhyhyh");
-        assertTrue(model.getControlador() instanceof ControladorBibliotecario);
-        model.logout();
-        assertTrue(model.getControlador() instanceof ControladorAfiliado);
-    }
 
     @Test
     public void setDate(){

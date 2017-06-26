@@ -18,15 +18,6 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
 
 
 
-    public static void main(String[] args) {
-        BibliotecaModel modelo = BibliotecaModel.getUniqueInstance();
-        //Controlador control = new ControladorAfiliado();
-        Ventana ventana = new Ventana(  modelo);
-        Ventana ventana2 = new Ventana(  modelo);
-
-
-    }
-
     public Ventana( BibliotecaModel modelo ) {
 
 
@@ -34,7 +25,7 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
 
         this.modelo =modelo;
         this.controlador = new ControladorAfiliado();
-        fechaModelo = new JLabel(""+controlador.getFecha(modelo).getDate()+"/"+controlador.getFecha(modelo).getMonth()+1+"/"+controlador.getFecha(modelo).getYear());
+        fechaModelo = new JLabel(""+controlador.getFecha(modelo).getDate()+"/"+(controlador.getFecha(modelo).getMonth()+1)+"/"+((controlador.getFecha(modelo).getYear())+1900));
 
         this.menuInicial();
         setVisible(true);
@@ -48,7 +39,7 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
     }
 
     public void update(){
-        fechaModelo = new JLabel(""+controlador.getFecha(modelo).getDate()+"/"+controlador.getFecha(modelo).getMonth()+"/"+controlador.getFecha(modelo).getYear());
+        fechaModelo = new JLabel(""+controlador.getFecha(modelo).getDate()+"/"+(controlador.getFecha(modelo).getMonth()+1)+"/"+((controlador.getFecha(modelo).getYear()+1900)));
         actualizarVentana();
 
 
@@ -114,7 +105,7 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
                 logout();
             }
         });
-        JButton consulta = new JButton("Consulta");
+        JButton consulta = new JButton("Consultas");
 
         JButton afiliado = new JButton("Afiliados");
         afiliado.addActionListener(new ActionListener() {
@@ -125,7 +116,13 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
         });
         /////////////////////////////////////////////////////////////////////////////////
         //fechaModelo = new JLabel(modelo.getDate().toString());
-        JButton prestamo = new JButton("Prestamo");
+        JButton prestamo = new JButton("Prestamos");
+        prestamo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                prestamos();
+            }
+        });
         JButton ejemplar = new JButton("Ejemplares");
         ejemplar.addActionListener(new ActionListener() {
             @Override
@@ -181,8 +178,11 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
         this.actual = EstadoVentanas.LOGIN;
         contenedor.removeAll();
         this.setSize(400,300);
+        JPanel panelSuperior = new JPanel();
+        panelSuperior.setLayout(new FlowLayout());
+        panelSuperior.add(new JLabel("Ingrese sus datos: "));
         JPanel panelDatos = new JPanel();
-        GridLayout gl = new GridLayout(2, 2, 0, 30);
+        GridLayout gl = new GridLayout(2, 2, 20, 20);
         panelDatos.setLayout(gl);
         panelDatos.add(new JLabel("ID:"));
         JTextField id= new JTextField(16);
@@ -220,7 +220,8 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
             }
         });
         //Container cp = getContentPane();
-        contenedor.setLayout(new GridLayout(2,1,20,50));
+        contenedor.setLayout(new GridLayout(3,1,20,20));
+        contenedor.add(panelSuperior);
         contenedor.add(panelDatos);
         contenedor.add(panelBotones);
         contenedor.validate();
@@ -411,8 +412,8 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
         lista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DefaultListModel listModel = new DefaultListModel();
         for(Afiliado afi: controlador.verAfiliados(modelo)){
-            if(afi.getFechaSuspension()!=null)
-            listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido()+ "   Suspendido hasta: "+ afi.getFechaSuspension().getDate()+"/"+(afi.getFechaSuspension().getMonth()+1));
+            if(afi.getFechaSuspension()!=null&&afi.getFechaSuspension().compareTo(controlador.getFecha(modelo))>0)
+            listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido()+ "   Suspendido hasta: "+afi.getFechaSuspension().toString()+" "+ afi.getFechaSuspension().getDate()+"/"+(afi.getFechaSuspension().getMonth()+1));
             else{
                 listModel.addElement("" +afi.getId()+"  "+afi.getNombre()+"  "+afi.getApellido());
             }
@@ -1154,9 +1155,9 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
         DefaultListModel listModel = new DefaultListModel();
         for(Ejemplar ejem : modelo.getItems().listarEjemplares()){
             if(ejem.getAfiliado()==null)
-                listModel.addElement("Id Ejemplar:  "+ejem.getIdEjemplar()+ "    Item: "+ejem.getItem().getIdItem()+"   "+ ejem.getItem().getTitulo()+ " ["+ejem.getItem().getCategoria()+"]  "+"   Estado: "+ ejem.getEstado() );
+                listModel.addElement("Id Ejemplar:  "+ejem.getIdEjemplar()+ "    Item: "+ejem.getItem().getIdItem()+"   "+ ejem.getItem().getTitulo()+ " ["+ejem.getItem().getCategoria()+"]  "+"   Estado:   "+ ejem.getEstado() );
             else
-                listModel.addElement("Id Ejemplar:  "+ejem.getIdEjemplar()+ "    Item: "+ejem.getItem().getIdItem()+"   "+ ejem.getItem().getTitulo()+ " ["+ejem.getItem().getCategoria()+"]  "+"   Prestado a: "+ ejem.getAfiliado());
+                listModel.addElement("Id Ejemplar:  "+ejem.getIdEjemplar()+ "    Item: "+ejem.getItem().getIdItem()+"   "+ ejem.getItem().getTitulo()+ " ["+ejem.getItem().getCategoria()+"]  "+"   Prestado a:   "+ ejem.getAfiliado().getApellido()+ " , "+ ejem.getAfiliado().getNombre());
 
         }
         lista.setModel(listModel);
@@ -1327,6 +1328,147 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
 
 
     }
+    public void prestamos(){
+        this.actual = EstadoVentanas.PRESTAMOS;
+        contenedor.removeAll();
+        setSize(300,300);
+        contenedor.setLayout(new GridLayout(4,1,15,15));
+        contenedor.add(new JLabel("Acciones sobre Prestamos"));
+        JButton prestar = new JButton("Prestar");
+        prestar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                prestamo();
+            }
+        });
+        contenedor.add(prestar);
+        JButton devolver = new JButton("Devolver");
+        devolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                devolucion();
+            }
+        });
+        contenedor.add(devolver);
+
+        JButton volver = new JButton("Volver");
+        volver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuBibliotecario();
+            }
+        });
+        contenedor.add(volver);
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
+    public void prestamo(){
+        this.actual = EstadoVentanas.PRESTAMO;
+        contenedor.removeAll();
+        setSize(450,200);
+        JPanel inferior = new JPanel();
+        inferior.setLayout(new FlowLayout());
+        JPanel superior = new JPanel();
+        JPanel central = new JPanel();
+        central.setLayout(new GridLayout(2,2,0,0));
+        superior.setLayout(new GridLayout(2,1));
+        contenedor.setLayout(new GridLayout(3,1,20,20));
+        superior.add(new JLabel("Ingrese el ID del Afiliado y del Ejemplar"));
+        central.add(new JLabel("DNI :"));
+        JTextField dni = new JTextField(16);
+        dni.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        central.add(dni);
+        central.add(new JLabel("ID Ejemplar: "));
+        JTextField contra = new JTextField(16);
+        contra.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        central.add(contra);
+        JButton aceptar = new JButton("Aceptar");
+        aceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(controlador.prestar(Integer.parseInt(contra.getText()),Integer.parseInt(dni.getText()), modelo))
+                    prestamos();
+
+            }
+        });
+        JButton cancelar = new JButton("Cancelar");
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                prestamos();
+
+            }
+        });
+        inferior.add(aceptar);
+        inferior.add(cancelar);
+        contenedor.add(superior);
+        contenedor.add(central);
+        contenedor.add(inferior);
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
+    public void devolucion(){
+        this.actual = EstadoVentanas.DEVOLUCION;
+        contenedor.removeAll();
+        setSize(450,200);
+        JPanel inferior = new JPanel();
+        inferior.setLayout(new FlowLayout());
+        JPanel superior = new JPanel();
+        JPanel central = new JPanel();
+        central.setLayout(new GridLayout(1,2,0,0));
+        superior.setLayout(new GridLayout(2,1));
+        contenedor.setLayout(new GridLayout(3,1,20,20));
+        superior.add(new JLabel("Ingrese el ID del Ejemplar"));
+        central.add(new JLabel("ID Ejemplar :"));
+        JTextField dni = new JTextField(16);
+        dni.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        central.add(dni);
+
+        JButton aceptar = new JButton("Aceptar");
+        aceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(controlador.devolver(Integer.parseInt(dni.getText()),modelo))
+                    prestamos();
+
+            }
+        });
+        JButton cancelar = new JButton("Cancelar");
+        cancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                prestamos();
+
+            }
+        });
+        inferior.add(aceptar);
+        inferior.add(cancelar);
+        contenedor.add(superior);
+        contenedor.add(central);
+        contenedor.add(inferior);
+        contenedor.validate();
+        contenedor.repaint();
+
+    }
     public void actualizarVentana(){
         switch ( actual){
             case INICIAL: menuInicial();
@@ -1372,6 +1514,13 @@ public class Ventana extends JFrame implements ActionListener,  Observer {
                 break;
             case MODFECHA: modFecha();
                 break;
+            case PRESTAMOS: prestamos();
+                break;
+            case PRESTAMO: prestamo();
+                break;
+            case DEVOLUCION: devolucion();
+                break;
+
         }
 /*INICIAL, BIBLIOTECARIO,LOGOUT,LOGIN,AFILIADOS,AGREGARAFILIADO,VERAFILIADOS,BORRARAFILIADO,SUSPENDER,MODDATOS,MODPERMISOS,EJEMPLARES,AGREGAREJEMPLARES,
     AGREGARLIBRO,AGREGARREVISTA,AGREGARAUDIOV,AGREGARTESIS,VEREJEMPLARES,BORRAREJEMPLAR,DARBAJA,MODFECHA */

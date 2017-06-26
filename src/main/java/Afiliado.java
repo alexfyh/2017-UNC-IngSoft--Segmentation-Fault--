@@ -153,6 +153,7 @@ public class Afiliado {
 
         }
     }
+
     public Date getFechaSuspension(){
         return fechaSuspension;
     }

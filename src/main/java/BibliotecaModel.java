@@ -51,7 +51,7 @@ public class BibliotecaModel {
     }
 
     public void setDate(int anio, int mes, int dia) {
-        this.fechaActual = new Date(anio, mes-1, dia);
+        this.fechaActual = new Date(anio, mes, dia);
 
         notifyObserver();
     }

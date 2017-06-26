@@ -28,7 +28,7 @@ public abstract class Ejemplar {
     }
 
     public void devolverEjemplar(){
-
+        this.afiliado.fechaSuspension = null;
         afiliado=null;
         this.estado = EstadoEjemplar.DISPONIBLE;
     }

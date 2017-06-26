@@ -292,7 +292,7 @@ public class ControladorBibliotecario implements Controlador {
             int dia = Integer.parseInt(numeros[0]);
             int mes = Integer.parseInt(numeros[1]);
             int anio = Integer.parseInt(numeros[2]);
-            modelo.setDate(anio-1900,mes,dia);
+            modelo.setDate(anio-1900,mes-1,dia);
             return true;
         }
         catch(Exception e){
